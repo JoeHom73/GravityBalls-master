@@ -1,44 +1,54 @@
 //declare variables
-float x, y, velX, velY, diam, g;
-
+float g;
+int count = 30;
+float []x = new float [count];
+float []y= new float [count];
+float []velX = new float [count];
+float []velY = new float [count];
+float []diam = new float [count];
 void setup() {
   //set size of canvas
-  size(800, 600);
 
-  //initialize variables
-  x = width/2;
-  y = height/2;
-  diam = 80;
-  velX = random(5);
-  velY = 10;
-  g =1;
+  size(800, 600);
+  for (int i=0; i < count; i++) {
+    //initialize variables
+    x[i] = width/2;
+    y[i] = height/2;
+    diam[i] = 80;
+    velX[i] = random(5);
+    velY[i]= 10;
+    g =.1;
+  }
 }
 
 void draw() {
   //draw background to cover previous frame
   background(0);
-
+  
+  for (int i=0; i < count; i++) {
+ 
   //draw ball
-  ellipse(x, y, diam, diam);
+  velY[i]= velY[i] + g; 
+  ellipse(x[i], y[i], diam[i], diam[i]);
 
   //add velocity to position
-  x += velX;
-  y += velY;
+  x[i] += velX[i];
+  y[i] += velY[i];
+
+
 
   //bounce ball if it hits walls
-  if (x + diam/2 >= width) {
-    velX = -abs(velX); //if the ball hits the right wall, assign x velocity the negative version of itself
-    velY = -abs(velY)*.15;
-  } else if (x - diam/2 <= 0) {
-    velX = abs(velX);     //if the ball hits the left wall, assign x velocity the positive version of itself
-    velY = -abs(velY)*.15;
+  if (x[i] + diam[i]/2 >= width) {
+    velX[i] = -abs(velX[i]); //if the ball hits the right wall, assign x velocity the negative version of itself
+    velY[i] = abs(velY[i])*2;
+  } else if (x[i] - diam[i]/2 <= 0) {
+    velX[i] = abs(velX[i]);     //if the ball hits the left wall, assign x velocity the positive version of itself
+    velY[i] = abs(velY[i])*2;
   }
-  if (y + diam/2 >= height) {
-    velY = -abs(velY)*.15;
-  } else if (y - diam/2 <= 0) {
-    velY = abs(velY);
+  if (y[i] + diam[i]/2 >= height) {
+    velY[i] = -abs(velY[i])*.65;
+  } else if (y[i] - diam[i]/2 <= 0) {
+    velY[i] = abs(velY[i]);
   }
-  if(velY < 0 && y + diam/2 >= height) {
-    velY = velY+1;
   }
 }
